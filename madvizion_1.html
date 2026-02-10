@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M A D V I Z I O N</title>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-color: #e0e0e0;
+            --accent-color: #ff3333; /* Red */
+            --highlight-color: #00ffcc; /* Cyan/Green */
+            --font-mono: 'Courier New', Courier, monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            cursor: crosshair;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-mono);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- SUBTLE TEXTURE --- */
+        .scanlines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px; pointer-events: none; z-index: 100;
+            opacity: 0.6;
+        }
+        .noise {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 99;
+        }
+
+        /* --- SOCIAL ICONS --- */
+        .social-sidebar {
+            position: fixed; top: 25px; right: 25px;
+            display: flex; gap: 15px; z-index: 200;
+        }
+        .social-sidebar a {
+            color: var(--text-color); opacity: 0.5; transition: 0.3s;
+        }
+        .social-sidebar a:hover {
+            opacity: 1; color: var(--accent-color); transform: scale(1.05);
+        }
+        .social-icon { width: 20px; height: 20px; fill: currentColor; }
+
+        /* --- MAIN CONTAINER --- */
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 550px;
+            height: 80vh;
+            max-height: 700px;
+            padding: 40px;
+            border: 1px solid #333;
+            background: rgba(5, 5, 5, 0.95);
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- HEADER --- */
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+            width: 100%;
+        }
+
+        .glitch {
+            font-size: 2.8rem; font-weight: bold; position: relative;
+            color: var(--text-color); text-transform: uppercase; letter-spacing: 4px;
+            animation: glitch-skew 6s infinite linear alternate-reverse; 
+            margin-bottom: 15px;
+        }
+        .glitch::before, .glitch::after {
+            content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.7;
+        }
+        .glitch::before {
+            left: 2px; text-shadow: -1px 0 #00ffff; clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 8s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -2px; text-shadow: -1px 0 #ff00ff; clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 8s infinite linear alternate-reverse;
+        }
+
+        .member-display {
+            font-size: 0.9rem; color: var(--accent-color);
+            letter-spacing: 3px; min-height: 1.2em;
+            font-weight: bold;
+        }
+
+        /* --- MENUS --- */
+        .content-window {
+            flex-grow: 1;
+            width: 100%;
+            overflow-y: auto;
+            padding: 10px 5px;
+            margin-bottom: 20px;
+            scrollbar-width: thin;
+            scrollbar-color: #333 transparent;
+        }
+        .content-window::-webkit-scrollbar { width: 3px; }
+        .content-window::-webkit-scrollbar-thumb { background: #444; }
+
+        .hidden { display: none !important; }
+
+        /* --- BUTTONS --- */
+        .btn-menu {
+            display: block; width: 100%;
+            background: transparent;
+            color: var(--text-color);
+            border: 1px solid #444;
+            padding: 20px;
+            margin-bottom: 15px;
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+        }
+        .btn-menu:hover {
+            background: var(--text-color); color: #000; border-color: var(--text-color);
+        }
+
+        .btn-back {
+            background: transparent; border: none; color: #666;
+            padding: 10px; cursor: pointer; font-family: var(--font-mono);
+            text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;
+        }
+        .btn-back:hover { color: var(--text-color); }
+
+        /* --- LIST ITEMS --- */
+        .list-group { margin-bottom: 30px; }
+        .group-header {
+            color: var(--highlight-color);
+            margin-bottom: 15px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+
+        .track-item {
+            display: block;
+            text-decoration: none;
+            color: var(--text-color);
+            padding: 12px 0;
+            border-bottom: 1px solid #1a1a1a;
+            font-size: 0.85rem;
+            transition: 0.2s;
+        }
+        .track-item:hover {
+            padding-left: 8px;
+            color: #fff;
+            border-bottom-color: #444;
+        }
+        
+        .t-date { color: var(--accent-color); font-weight: bold; margin-right: 10px; opacity: 0.9; }
+        .t-title { font-weight: bold; text-transform: uppercase; }
+        .t-artist { color: #777; font-size: 0.75rem; margin-top: 4px; display: inline-block;}
+        .t-tag { float: right; color: #444; font-size: 0.7rem; margin-top: 4px; }
+
+        /* --- FOOTER --- */
+        .footer-info {
+            font-size: 0.7rem; color: #333; text-align: center; margin-top: auto; letter-spacing: 2px;
+        }
+
+        /* Subtler Glitch Animations */
+        @keyframes glitch-anim {
+            0% { clip: rect(31px, 9999px, 98px, 0); }
+            20% { clip: rect(4px, 9999px, 86px, 0); }
+            40% { clip: rect(93px, 9999px, 15px, 0); }
+            100% { clip: rect(51px, 9999px, 12px, 0); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip: rect(65px, 9999px, 10px, 0); }
+            20% { clip: rect(10px, 9999px, 56px, 0); }
+            40% { clip: rect(2px, 9999px, 83px, 0); }
+            100% { clip: rect(12px, 9999px, 66px, 0); }
+        }
+        @keyframes glitch-skew {
+            0% { transform: skew(0.5deg); }
+            10% { transform: skew(-0.5deg); }
+            20% { transform: skew(-1deg); }
+            40% { transform: skew(0deg); }
+            100% { transform: skew(0deg); }
+        }
+
+        @media (max-width: 600px) {
+            .glitch { font-size: 2.2rem; }
+            .t-tag { float: none; display: block; margin-top: 2px; }
+            .container { height: 95vh; width: 95%; padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scanlines"></div>
+    <div class="noise"></div>
+
+    <div class="social-sidebar">
+        <a href="https://www.instagram.com/madvizioncult/" target="_blank" aria-label="Instagram">
+            <svg class="social-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></path></svg>
+        </a>
+        <a href="https://www.youtube.com/@madvizionbcn" target="_blank" aria-label="YouTube">
+            <svg class="social-icon" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></path></svg>
+        </a>
+    </div>
+
+    <div class="container">
+        
+        <div class="header-section">
+            <h1 class="glitch" data-text="MADVIZION">MADVIZION</h1>
+            <div class="member-display" id="member-typer"></div>
+        </div>
+
+        <div id="menu-view" style="width: 100%; display: flex; flex-direction: column; justify-content: center; height: 100%;">
+            <button class="btn-menu" onclick="showSection('archive')">ARCHIVE [RELEASED]</button>
+            <button class="btn-menu" onclick="showSection('horizon')">HORIZON [UPCOMING]</button>
+        </div>
+
+        <div id="archive-view" class="content-window hidden">
+            
+            <div class="list-group">
+                <div class="group-header">RELEASED WORKS</div>
+                
+                <a href="https://www.youtube.com/watch?v=J-XjnC_3-6g" target="_blank" class="track-item">
+                    <span class="t-date">05/07/24</span> <span class="t-title">SELECTED JUNGLE WORKS 24-24</span> <span class="t-tag">[Beattape]</span><br>
+                    <span class="t-artist">y-rah</span>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=nd6C6t6ZdjQ&t=322s" target="_blank" class="track-item">
+                    <span class="t-date">23/04/25</span> <span class="t-title">BARNA REVENGERS</span> <span class="t-tag">[Album]</span><br>
+                    <span class="t-artist">CWW</span>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=caL9_JZnW7E" target="_blank" class="track-item">
+                    <span class="t-date">22/08/25</span> <span class="t-title">MAYBACH (HOODTRAP)</span> <span class="t-tag">[Beattape]</span><br>
+                    <span class="t-artist">y-rah</span>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=projlgDNwKA&t=130s" target="_blank" class="track-item">
+                    <span class="t-date">01/02/26</span> <span class="t-title">VIRTUTS I VICIS</span> <span class="t-tag">[EP]</span><br>
+                    <span class="t-artist">CWW</span>
+                </a>
+            </div>
+
+            <div class="list-group">
+                <div class="group-header">RECENT VIDEOS</div>
+
+                <a href="https://www.youtube.com/watch?v=pW_e5St1pMA" target="_blank" class="track-item">
+                    <span class="t-title">PLAÇA CATALUNYA</span> <span class="t-tag">[VIDEO]</span><br>
+                    <span class="t-artist">flakö</span>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=fifE1H6XDZY" target="_blank" class="track-item">
+                    <span class="t-title">VIRTUTS</span> <span class="t-tag">[VIDEO]</span><br>
+                    <span class="t-artist">CWW</span>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=-q8FpP5O3dQ" target="_blank" class="track-item">
+                    <span class="t-title">MSN</span> <span class="t-tag">[VIDEO]</span><br>
+                    <span class="t-artist">Barno</span>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=bpPUkHxQex4" target="_blank" class="track-item">
+                    <span class="t-title">LISBOETA</span> <span class="t-tag">[VIDEO]</span><br>
+                    <span class="t-artist">CWW</span>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=RhcozLqbeE4" target="_blank" class="track-item">
+                    <span class="t-title">MOSCOVITA</span> <span class="t-tag">[VIDEO]</span><br>
+                    <span class="t-artist">CWW</span>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=Pp58Pf1gZ9s" target="_blank" class="track-item">
+                    <span class="t-title">VICIS</span> <span class="t-tag">[VIDEO]</span><br>
+                    <span class="t-artist">CWW</span>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=cGSMSAS-1EM" target="_blank" class="track-item">
+                    <span class="t-title">JEREMY SCOTT</span> <span class="t-tag">[VIDEO]</span><br>
+                    <span class="t-artist">flakö</span>
+                </a>
+            </div>
+
+            <div style="text-align: center;">
+                <button class="btn-back" onclick="showSection('menu')">[ BACK ]</button>
+            </div>
+        </div>
+
+        <div id="horizon-view" class="content-window hidden">
+            
+            <div class="list-group">
+                <div class="group-header">IMMINENT</div>
+                <div class="track-item">
+                    <span class="t-date">14/02/26</span> <span class="t-title">SWAGAHOLIC</span> <span class="t-tag">[EP I]</span><br>
+                    <span class="t-artist">Barno</span>
+                </div>
+                <div class="track-item">
+                    <span class="t-date">20/02/26</span> <span class="t-title">BURBANK DAYDREAMING</span> <span class="t-tag">[SGL]</span><br>
+                    <span class="t-artist">CWW</span>
+                </div>
+                <div class="track-item">
+                    <span class="t-date">24/02/26</span> <span class="t-title">TIRANT LO BLANC</span> <span class="t-tag">[SGL]</span><br>
+                    <span class="t-artist">y-rah</span>
+                </div>
+            </div>
+
+            <div class="list-group">
+                <div class="group-header">PLANNED (SPRING '26)</div>
+                <div class="track-item">
+                    <span class="t-date">03/26</span> <span class="t-title">CRISIS D’AMBICIÓ</span> <span class="t-tag">[EP]</span><br>
+                    <span class="t-artist">CWW</span>
+                </div>
+                <div class="track-item">
+                    <span class="t-date">03/26</span> <span class="t-title">Original Swag Boys</span> <span class="t-tag">[SGL]</span><br>
+                    <span class="t-artist">Romén & y-rah</span>
+                </div>
+                <div class="track-item">
+                    <span class="t-date">03/26</span> <span class="t-title">CHARLIE PERC</span> <span class="t-tag">[SGL]</span><br>
+                    <span class="t-artist">y-rah</span>
+                </div>
+                <div class="track-item">
+                    <span class="t-date">04/26</span> <span class="t-title">SPIRITUAL SEASON</span> <span class="t-tag">[Album]</span><br>
+                    <span class="t-artist">flakö</span>
+                </div>
+                <div class="track-item">
+                    <span class="t-date">06/04/26</span> <span class="t-title">EL SWAG NO SE COMPRA</span> <span class="t-tag">[EP II]</span><br>
+                    <span class="t-artist">Barno</span>
+                </div>
+            </div>
+
+            <div class="list-group">
+                <div class="group-header">NO DATE / IN PROGRESS</div>
+                <div class="track-item">
+                    <span class="t-date">??/??</span> <span class="t-title">WHITE BOY OF THE YEAR</span><br>
+                    <span class="t-artist">y-rah</span>
+                </div>
+                <div class="track-item">
+                    <span class="t-date">??/??</span> <span class="t-title">FADOS</span><br>
+                    <span class="t-artist">CWW</span>
+                </div>
+                <div class="track-item">
+                    <span class="t-date">??/??</span> <span class="t-title">PERFORMATIVE</span><br>
+                    <span class="t-artist">y-rah, flakö & barno</span>
+                </div>
+                <div class="track-item">
+                    <span class="t-date">??/??</span> <span class="t-title">ONCE AGA1N</span><br>
+                    <span class="t-artist">y-rah & Romén</span>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn-back" onclick="showSection('menu')">[ BACK ]</button>
+            </div>
+        </div>
+
+        <div class="footer-info">
+            BCN 2026
+        </div>
+
+    </div>
+
+    <script>
+        // --- TYPING MEMBER NAMES ---
+        // ROMÉN is kept as ALL CAPS here
+        const members = ["Y-RAH", "BARNO", "FLAKÖ", "SXPHER", "ROMÉN"];
+        const typeElement = document.getElementById('member-typer');
+        let mIdx = 0;
+        let cIdx = 0;
+        let isDeleting = false;
+
+        function typeMembers() {
+            const current = members[mIdx];
+            
+            if (isDeleting) {
+                typeElement.innerText = current.substring(0, cIdx--);
+            } else {
+                typeElement.innerText = current.substring(0, cIdx++);
+            }
+
+            let speed = isDeleting ? 50 : 120;
+
+            if (!isDeleting && cIdx === current.length + 1) {
+                speed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && cIdx === 0) {
+                isDeleting = false;
+                mIdx = (mIdx + 1) % members.length;
+                speed = 500;
+            }
+
+            setTimeout(typeMembers, speed);
+        }
+
+        document.addEventListener('DOMContentLoaded', typeMembers);
+
+        // --- NAVIGATION ---
+        function showSection(sectionId) {
+            const menu = document.getElementById('menu-view');
+            const archive = document.getElementById('archive-view');
+            const horizon = document.getElementById('horizon-view');
+
+            menu.classList.add('hidden');
+            archive.classList.add('hidden');
+            horizon.classList.add('hidden');
+            
+            menu.style.display = 'none';
+
+            if(sectionId === 'menu') {
+                menu.classList.remove('hidden');
+                menu.style.display = 'flex';
+            } 
+            else if(sectionId === 'archive') {
+                archive.classList.remove('hidden');
+            } 
+            else if(sectionId === 'horizon') {
+                horizon.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
