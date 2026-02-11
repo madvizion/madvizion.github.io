@@ -22,23 +22,21 @@
 
         body {
             background-color: var(--bg-color);
-            /* --- NEW BACKGROUND IMAGE --- */
-            background-image: url('bckg.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            
             color: var(--text-color);
             font-family: var(--font-mono);
-            height: 100vh;
+            min-height: 100vh;
             width: 100vw;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+
+            /* --- FIXED BACKGROUND IMAGE --- */
+            background: url('bckg.png') no-repeat center center fixed;
+            background-size: cover;
         }
 
-        /* --- SUBTLE TEXTURE --- */
+        /* --- CRT OVERLAYS --- */
         .scanlines {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
@@ -57,12 +55,12 @@
             display: flex; gap: 15px; z-index: 200;
         }
         .social-sidebar a {
-            color: var(--text-color); opacity: 0.5; transition: 0.3s;
+            color: var(--text-color); opacity: 0.6; transition: 0.3s;
         }
         .social-sidebar a:hover {
-            opacity: 1; color: var(--accent-color); transform: scale(1.05);
+            opacity: 1; color: var(--accent-color); transform: scale(1.1);
         }
-        .social-icon { width: 20px; height: 20px; fill: currentColor; }
+        .social-icon { width: 22px; height: 22px; fill: currentColor; }
 
         /* --- MAIN CONTAINER --- */
         .container {
@@ -70,12 +68,13 @@
             z-index: 10;
             width: 90%;
             max-width: 550px;
-            height: 80vh;
-            max-height: 700px;
+            height: 85vh;
+            max-height: 750px;
             padding: 40px;
             border: 1px solid #333;
-            background: rgba(5, 5, 5, 0.95);
-            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            /* Slightly more transparent so background shows through */
+            background: rgba(5, 5, 5, 0.9);
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -84,14 +83,14 @@
         /* --- HEADER --- */
         .header-section {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             width: 100%;
         }
 
         .logo-img {
             display: block;
             max-width: 100%;
-            width: 300px; 
+            width: 280px; 
             height: auto;
             margin: 0 auto 15px auto;
         }
@@ -129,7 +128,7 @@
             font-size: 1rem;
             text-transform: uppercase;
             cursor: pointer;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             transition: all 0.3s;
         }
         .btn-menu:hover {
@@ -148,31 +147,34 @@
         .group-header {
             color: var(--highlight-color);
             margin-bottom: 15px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            opacity: 0.8;
+            opacity: 0.9;
+            border-bottom: 1px solid #222;
+            padding-bottom: 5px;
         }
 
         .track-item {
             display: block;
             text-decoration: none;
             color: var(--text-color);
-            padding: 12px 0;
+            padding: 12px 5px;
             border-bottom: 1px solid #1a1a1a;
             font-size: 0.85rem;
             transition: 0.2s;
         }
         .track-item:hover {
-            padding-left: 8px;
+            padding-left: 10px;
+            background: rgba(255,255,255,0.05);
             color: #fff;
             border-bottom-color: #444;
         }
         
         .t-date { color: var(--accent-color); font-weight: bold; margin-right: 10px; opacity: 0.9; }
         .t-title { font-weight: bold; text-transform: uppercase; }
-        .t-artist { color: #777; font-size: 0.75rem; margin-top: 4px; display: inline-block;}
-        .t-tag { float: right; color: #444; font-size: 0.7rem; margin-top: 4px; }
+        .t-artist { color: #888; font-size: 0.75rem; margin-top: 4px; display: inline-block;}
+        .t-tag { float: right; color: #555; font-size: 0.7rem; margin-top: 4px; }
 
         /* --- FOOTER --- */
         .footer-info {
@@ -183,6 +185,7 @@
             .t-tag { float: none; display: block; margin-top: 2px; }
             .container { height: 95vh; width: 95%; padding: 25px; }
             .logo-img { width: 220px; }
+            body { background-attachment: scroll; } /* Better for mobile */
         }
     </style>
 </head>
@@ -344,7 +347,7 @@
                 </div>
             </div>
 
-            <div style="text-align: center;">
+            <div style="text-align: center; margin-top: 20px;">
                 <button class="btn-back" onclick="showSection('menu')">[ BACK ]</button>
             </div>
         </div>
@@ -356,7 +359,7 @@
     </div>
 
     <script>
-        // --- TYPING MEMBER NAMES ---
+        /* --- TYPING MEMBER NAMES --- */
         const members = ["Y-RAH", "BARNO", "FLAKÖ", "SXPHER", "ROMÉN"];
         const typeElement = document.getElementById('member-typer');
         let mIdx = 0;
@@ -384,7 +387,7 @@
         }
         document.addEventListener('DOMContentLoaded', typeMembers);
 
-        // --- NAVIGATION ---
+        /* --- NAVIGATION --- */
         function showSection(sectionId) {
             const menu = document.getElementById('menu-view');
             const archive = document.getElementById('archive-view');
@@ -393,7 +396,6 @@
             menu.classList.add('hidden');
             archive.classList.add('hidden');
             horizon.classList.add('hidden');
-            
             menu.style.display = 'none';
 
             if(sectionId === 'menu') {
@@ -406,8 +408,8 @@
             }
         }
 
-        // --- AUDIO PLAYER (Updated Playlists) ---
-        // Updated to use .mp3 based on your screenshot
+        /* --- ROBUST AUDIO ENGINE --- */
+        // Using .mp3 based on your new file names. 
         const playlist = ["wav1.mp3", "wav2.mp3", "wav3.mp3", "wav4.mp3", "wav5.mp3"];
         let currentTrackIndex = 0;
         let audio = new Audio();
@@ -429,24 +431,29 @@
             audio.src = playlist[currentTrackIndex];
             audio.load();
             
+            // Try to play
             const playPromise = audio.play();
             if (playPromise !== undefined) {
                 playPromise.catch(error => {
-                    console.log("Autoplay prevented. Waiting for interaction.");
+                    console.log("Autoplay blocked. Waiting for click.");
                 });
             }
-            
             currentTrackIndex++;
         }
 
-        audio.addEventListener('ended', playNextTrack);
-
-        shuffleArray(playlist);
-        
-        window.addEventListener('load', () => {
-             playNextTrack();
+        // If a file is missing or corrupt (e.g., wav3.mp3 is actually wav3.wav), skip it
+        audio.addEventListener('error', function(e) {
+            console.log("Error playing track, skipping to next...");
+            playNextTrack();
         });
 
+        audio.addEventListener('ended', playNextTrack);
+
+        // Start
+        shuffleArray(playlist);
+        window.addEventListener('load', () => { playNextTrack(); });
+
+        // Unblock audio on first click
         document.addEventListener('click', () => {
             if (!hasInteracted && audio.paused) {
                 audio.play();
