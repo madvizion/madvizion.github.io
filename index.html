@@ -22,6 +22,12 @@
 
         body {
             background-color: var(--bg-color);
+            /* --- NEW BACKGROUND IMAGE --- */
+            background-image: url('bckg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            
             color: var(--text-color);
             font-family: var(--font-mono);
             height: 100vh;
@@ -82,15 +88,12 @@
             width: 100%;
         }
 
-        /* NEW LOGO IMAGE STYLE */
         .logo-img {
             display: block;
             max-width: 100%;
-            width: 300px; /* Adjust size here */
+            width: 300px; 
             height: auto;
             margin: 0 auto 15px auto;
-            /* Optional: Blends black background of jpeg with page if needed */
-            /* mix-blend-mode: screen; */ 
         }
 
         .member-display {
@@ -341,7 +344,7 @@
                 </div>
             </div>
 
-            <div style="text-align: center; margin-top: 20px;">
+            <div style="text-align: center;">
                 <button class="btn-back" onclick="showSection('menu')">[ BACK ]</button>
             </div>
         </div>
@@ -354,7 +357,6 @@
 
     <script>
         // --- TYPING MEMBER NAMES ---
-        // ROMÉN is kept as ALL CAPS here
         const members = ["Y-RAH", "BARNO", "FLAKÖ", "SXPHER", "ROMÉN"];
         const typeElement = document.getElementById('member-typer');
         let mIdx = 0;
@@ -363,7 +365,6 @@
 
         function typeMembers() {
             const current = members[mIdx];
-            
             if (isDeleting) {
                 typeElement.innerText = current.substring(0, cIdx--);
             } else {
@@ -371,7 +372,6 @@
             }
 
             let speed = isDeleting ? 50 : 120;
-
             if (!isDeleting && cIdx === current.length + 1) {
                 speed = 2000;
                 isDeleting = true;
@@ -380,10 +380,8 @@
                 mIdx = (mIdx + 1) % members.length;
                 speed = 500;
             }
-
             setTimeout(typeMembers, speed);
         }
-
         document.addEventListener('DOMContentLoaded', typeMembers);
 
         // --- NAVIGATION ---
@@ -401,14 +399,60 @@
             if(sectionId === 'menu') {
                 menu.classList.remove('hidden');
                 menu.style.display = 'flex';
-            } 
-            else if(sectionId === 'archive') {
+            } else if(sectionId === 'archive') {
                 archive.classList.remove('hidden');
-            } 
-            else if(sectionId === 'horizon') {
+            } else if(sectionId === 'horizon') {
                 horizon.classList.remove('hidden');
             }
         }
+
+        // --- AUDIO PLAYER (Updated Playlists) ---
+        // Updated to use .mp3 based on your screenshot
+        const playlist = ["wav1.mp3", "wav2.mp3", "wav3.mp3", "wav4.mp3", "wav5.mp3"];
+        let currentTrackIndex = 0;
+        let audio = new Audio();
+        let hasInteracted = false;
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function playNextTrack() {
+            if (currentTrackIndex >= playlist.length) {
+                shuffleArray(playlist);
+                currentTrackIndex = 0;
+            }
+            
+            audio.src = playlist[currentTrackIndex];
+            audio.load();
+            
+            const playPromise = audio.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log("Autoplay prevented. Waiting for interaction.");
+                });
+            }
+            
+            currentTrackIndex++;
+        }
+
+        audio.addEventListener('ended', playNextTrack);
+
+        shuffleArray(playlist);
+        
+        window.addEventListener('load', () => {
+             playNextTrack();
+        });
+
+        document.addEventListener('click', () => {
+            if (!hasInteracted && audio.paused) {
+                audio.play();
+                hasInteracted = true;
+            }
+        });
     </script>
 </body>
 </html>
