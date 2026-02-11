@@ -8,8 +8,8 @@
         :root {
             --bg-color: #050505;
             --text-color: #e0e0e0;
-            --accent-color: #ff3333; /* Red */
-            --highlight-color: #00ffcc; /* Cyan/Green */
+            --accent-color: #ff3333;
+            --highlight-color: #00ffcc;
             --font-mono: 'Courier New', Courier, monospace;
         }
 
@@ -21,7 +21,17 @@
         }
 
         body {
+            /* Fallback color */
             background-color: var(--bg-color);
+            
+            /* --- FIXED BACKGROUND IMAGE --- */
+            /* Matches 'bckg.png' from your repo */
+            background-image: url('bckg.png');
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            
             color: var(--text-color);
             font-family: var(--font-mono);
             min-height: 100vh;
@@ -30,10 +40,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-
-            /* --- FIXED BACKGROUND IMAGE --- */
-            background: url('bckg.png') no-repeat center center fixed;
-            background-size: cover;
         }
 
         /* --- CRT OVERLAYS --- */
@@ -72,8 +78,8 @@
             max-height: 750px;
             padding: 40px;
             border: 1px solid #333;
-            /* Slightly more transparent so background shows through */
-            background: rgba(5, 5, 5, 0.9);
+            /* Transparent enough to see the background image */
+            background: rgba(5, 5, 5, 0.85);
             box-shadow: 0 0 30px rgba(0,0,0,0.8);
             display: flex;
             flex-direction: column;
@@ -347,7 +353,7 @@
                 </div>
             </div>
 
-            <div style="text-align: center; margin-top: 20px;">
+            <div style="text-align: center;">
                 <button class="btn-back" onclick="showSection('menu')">[ BACK ]</button>
             </div>
         </div>
@@ -408,9 +414,10 @@
             }
         }
 
-        /* --- ROBUST AUDIO ENGINE --- */
-        // Using .mp3 based on your new file names. 
-        const playlist = ["wav1.mp3", "wav2.mp3", "wav3.mp3", "wav4.mp3", "wav5.mp3"];
+        /* --- AUDIO PLAYER (MATCHED TO REPO) --- */
+        // Updated based on your screenshot: wav1.mp3, wav2.mp3, wav3.wav, wav4.mp3
+        const playlist = ["wav1.mp3", "wav2.mp3", "wav3.wav", "wav4.mp3"];
+        
         let currentTrackIndex = 0;
         let audio = new Audio();
         let hasInteracted = false;
@@ -428,6 +435,7 @@
                 currentTrackIndex = 0;
             }
             
+            console.log("Playing:", playlist[currentTrackIndex]);
             audio.src = playlist[currentTrackIndex];
             audio.load();
             
@@ -441,9 +449,9 @@
             currentTrackIndex++;
         }
 
-        // If a file is missing or corrupt (e.g., wav3.mp3 is actually wav3.wav), skip it
+        // If a file is missing, log it and skip to the next
         audio.addEventListener('error', function(e) {
-            console.log("Error playing track, skipping to next...");
+            console.error("Error playing track, skipping...");
             playNextTrack();
         });
 
