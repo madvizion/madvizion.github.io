@@ -24,9 +24,9 @@
             /* Fallback color */
             background-color: var(--bg-color);
             
-            /* --- FIXED BACKGROUND IMAGE --- */
-            /* Matches 'bckg.png' from your repo */
-            background-image: url('bckg.png');
+            /* --- BACKGROUND IMAGE FIX --- */
+            /* We use a relative path './' to force it to look in the root folder */
+            background-image: url('./bckg.png');
             background-position: center center;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -42,7 +42,7 @@
             justify-content: center;
         }
 
-        /* --- CRT OVERLAYS --- */
+        /* --- OVERLAYS --- */
         .scanlines {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
@@ -78,7 +78,7 @@
             max-height: 750px;
             padding: 40px;
             border: 1px solid #333;
-            /* Transparent enough to see the background image */
+            /* 0.85 Opacity ensures background is visible */
             background: rgba(5, 5, 5, 0.85);
             box-shadow: 0 0 30px rgba(0,0,0,0.8);
             display: flex;
@@ -191,7 +191,7 @@
             .t-tag { float: none; display: block; margin-top: 2px; }
             .container { height: 95vh; width: 95%; padding: 25px; }
             .logo-img { width: 220px; }
-            body { background-attachment: scroll; } /* Better for mobile */
+            body { background-attachment: scroll; }
         }
     </style>
 </head>
@@ -202,7 +202,7 @@
 
     <div class="social-sidebar">
         <a href="https://www.instagram.com/madvizioncult/" target="_blank" aria-label="Instagram">
-            <svg class="social-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></path></svg>
+            <svg class="social-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></path></svg>
         </a>
         <a href="https://www.youtube.com/@madvizionbcn" target="_blank" aria-label="YouTube">
             <svg class="social-icon" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></path></svg>
@@ -210,9 +210,8 @@
     </div>
 
     <div class="container">
-        
         <div class="header-section">
-            <img src="logo.jpeg" alt="MADVIZION LOGO" class="logo-img">
+            <img src="./logo.jpeg" alt="MADVIZION LOGO" class="logo-img">
             <div class="member-display" id="member-typer"></div>
         </div>
 
@@ -222,77 +221,62 @@
         </div>
 
         <div id="archive-view" class="content-window hidden">
-            
             <div class="list-group">
                 <div class="group-header">RELEASED WORKS</div>
-                
                 <a href="https://www.youtube.com/watch?v=J-XjnC_3-6g" target="_blank" class="track-item">
                     <span class="t-date">05/07/24</span> <span class="t-title">SELECTED JUNGLE WORKS 24-24</span> <span class="t-tag">[Beattape]</span><br>
                     <span class="t-artist">y-rah</span>
                 </a>
-
                 <a href="https://www.youtube.com/watch?v=nd6C6t6ZdjQ&t=322s" target="_blank" class="track-item">
                     <span class="t-date">23/04/25</span> <span class="t-title">BARNA REVENGERS</span> <span class="t-tag">[Album]</span><br>
                     <span class="t-artist">CWW</span>
                 </a>
-
                 <a href="https://www.youtube.com/watch?v=caL9_JZnW7E" target="_blank" class="track-item">
                     <span class="t-date">22/08/25</span> <span class="t-title">MAYBACH (HOODTRAP)</span> <span class="t-tag">[Beattape]</span><br>
                     <span class="t-artist">y-rah</span>
                 </a>
-
                 <a href="https://www.youtube.com/watch?v=projlgDNwKA&t=130s" target="_blank" class="track-item">
                     <span class="t-date">01/02/26</span> <span class="t-title">VIRTUTS I VICIS</span> <span class="t-tag">[EP]</span><br>
                     <span class="t-artist">CWW</span>
                 </a>
             </div>
-
             <div class="list-group">
                 <div class="group-header">RECENT VIDEOS</div>
-
                 <a href="https://www.youtube.com/watch?v=pW_e5St1pMA" target="_blank" class="track-item">
                     <span class="t-title">PLAÇA CATALUNYA</span> <span class="t-tag">[VIDEO]</span><br>
                     <span class="t-artist">flakö</span>
                 </a>
-
                 <a href="https://www.youtube.com/watch?v=fifE1H6XDZY" target="_blank" class="track-item">
                     <span class="t-title">VIRTUTS</span> <span class="t-tag">[VIDEO]</span><br>
                     <span class="t-artist">CWW</span>
                 </a>
-
                 <a href="https://www.youtube.com/watch?v=-q8FpP5O3dQ" target="_blank" class="track-item">
                     <span class="t-title">MSN</span> <span class="t-tag">[VIDEO]</span><br>
                     <span class="t-artist">Barno</span>
                 </a>
-
                 <a href="https://www.youtube.com/watch?v=bpPUkHxQex4" target="_blank" class="track-item">
                     <span class="t-title">LISBOETA</span> <span class="t-tag">[VIDEO]</span><br>
                     <span class="t-artist">CWW</span>
                 </a>
-
                 <a href="https://www.youtube.com/watch?v=RhcozLqbeE4" target="_blank" class="track-item">
                     <span class="t-title">MOSCOVITA</span> <span class="t-tag">[VIDEO]</span><br>
                     <span class="t-artist">CWW</span>
                 </a>
-
                 <a href="https://www.youtube.com/watch?v=Pp58Pf1gZ9s" target="_blank" class="track-item">
                     <span class="t-title">VICIS</span> <span class="t-tag">[VIDEO]</span><br>
                     <span class="t-artist">CWW</span>
                 </a>
-
                 <a href="https://www.youtube.com/watch?v=cGSMSAS-1EM" target="_blank" class="track-item">
                     <span class="t-title">JEREMY SCOTT</span> <span class="t-tag">[VIDEO]</span><br>
                     <span class="t-artist">flakö</span>
                 </a>
             </div>
-
             <div style="text-align: center;">
                 <button class="btn-back" onclick="showSection('menu')">[ BACK ]</button>
             </div>
         </div>
 
         <div id="horizon-view" class="content-window hidden">
-            
             <div class="list-group">
                 <div class="group-header">IMMINENT</div>
                 <div class="track-item">
@@ -308,7 +292,6 @@
                     <span class="t-artist">y-rah</span>
                 </div>
             </div>
-
             <div class="list-group">
                 <div class="group-header">PLANNED (SPRING '26)</div>
                 <div class="track-item">
@@ -332,7 +315,6 @@
                     <span class="t-artist">Barno</span>
                 </div>
             </div>
-
             <div class="list-group">
                 <div class="group-header">NO DATE / IN PROGRESS</div>
                 <div class="track-item">
@@ -352,16 +334,12 @@
                     <span class="t-artist">y-rah & Romén</span>
                 </div>
             </div>
-
             <div style="text-align: center;">
                 <button class="btn-back" onclick="showSection('menu')">[ BACK ]</button>
             </div>
         </div>
 
-        <div class="footer-info">
-            BCN 2026
-        </div>
-
+        <div class="footer-info">BCN 2026</div>
     </div>
 
     <script>
@@ -414,11 +392,18 @@
             }
         }
 
-        /* --- AUDIO PLAYER (MATCHED TO REPO) --- */
-        // Updated based on your screenshot: wav1.mp3, wav2.mp3, wav3.wav, wav4.mp3
+        /* --- AUDIO ENGINE --- */
+        // Exact files from your Repo
+        // Note: wav3 is a .wav, others are .mp3
         const playlist = ["wav1.mp3", "wav2.mp3", "wav3.wav", "wav4.mp3"];
         
-        let currentTrackIndex = 0;
+        // --- RANDOM START LOGIC ---
+        // We set the starting index immediately to a random number
+        let currentTrackIndex = Math.floor(Math.random() * playlist.length);
+        
+        // Debugging to see which track was picked in Console
+        console.log("Random start index:", currentTrackIndex, "Song:", playlist[currentTrackIndex]);
+
         let audio = new Audio();
         let hasInteracted = false;
 
@@ -430,7 +415,9 @@
         }
 
         function playNextTrack() {
+            // Check if we reached end of playlist
             if (currentTrackIndex >= playlist.length) {
+                // Re-shuffle for variety after one full loop
                 shuffleArray(playlist);
                 currentTrackIndex = 0;
             }
@@ -449,7 +436,7 @@
             currentTrackIndex++;
         }
 
-        // If a file is missing, log it and skip to the next
+        // If a file is missing/broken, skip it
         audio.addEventListener('error', function(e) {
             console.error("Error playing track, skipping...");
             playNextTrack();
@@ -457,9 +444,10 @@
 
         audio.addEventListener('ended', playNextTrack);
 
-        // Start
-        shuffleArray(playlist);
-        window.addEventListener('load', () => { playNextTrack(); });
+        // On Load, play the random track we picked at the top
+        window.addEventListener('load', () => { 
+            playNextTrack(); 
+        });
 
         // Unblock audio on first click
         document.addEventListener('click', () => {
