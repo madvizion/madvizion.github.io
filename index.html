@@ -78,26 +78,19 @@
         /* --- HEADER --- */
         .header-section {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             width: 100%;
         }
 
-        .glitch {
-            font-size: 2.8rem; font-weight: bold; position: relative;
-            color: var(--text-color); text-transform: uppercase; letter-spacing: 4px;
-            animation: glitch-skew 6s infinite linear alternate-reverse; 
-            margin-bottom: 15px;
-        }
-        .glitch::before, .glitch::after {
-            content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.7;
-        }
-        .glitch::before {
-            left: 2px; text-shadow: -1px 0 #00ffff; clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim 8s infinite linear alternate-reverse;
-        }
-        .glitch::after {
-            left: -2px; text-shadow: -1px 0 #ff00ff; clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim2 8s infinite linear alternate-reverse;
+        /* NEW LOGO IMAGE STYLE */
+        .logo-img {
+            display: block;
+            max-width: 100%;
+            width: 300px; /* Adjust size here */
+            height: auto;
+            margin: 0 auto 15px auto;
+            /* Optional: Blends black background of jpeg with page if needed */
+            /* mix-blend-mode: screen; */ 
         }
 
         .member-display {
@@ -183,31 +176,10 @@
             font-size: 0.7rem; color: #333; text-align: center; margin-top: auto; letter-spacing: 2px;
         }
 
-        /* Subtler Glitch Animations */
-        @keyframes glitch-anim {
-            0% { clip: rect(31px, 9999px, 98px, 0); }
-            20% { clip: rect(4px, 9999px, 86px, 0); }
-            40% { clip: rect(93px, 9999px, 15px, 0); }
-            100% { clip: rect(51px, 9999px, 12px, 0); }
-        }
-        @keyframes glitch-anim2 {
-            0% { clip: rect(65px, 9999px, 10px, 0); }
-            20% { clip: rect(10px, 9999px, 56px, 0); }
-            40% { clip: rect(2px, 9999px, 83px, 0); }
-            100% { clip: rect(12px, 9999px, 66px, 0); }
-        }
-        @keyframes glitch-skew {
-            0% { transform: skew(0.5deg); }
-            10% { transform: skew(-0.5deg); }
-            20% { transform: skew(-1deg); }
-            40% { transform: skew(0deg); }
-            100% { transform: skew(0deg); }
-        }
-
         @media (max-width: 600px) {
-            .glitch { font-size: 2.2rem; }
             .t-tag { float: none; display: block; margin-top: 2px; }
             .container { height: 95vh; width: 95%; padding: 25px; }
+            .logo-img { width: 220px; }
         }
     </style>
 </head>
@@ -228,7 +200,7 @@
     <div class="container">
         
         <div class="header-section">
-            <h1 class="glitch" data-text="MADVIZION">MADVIZION</h1>
+            <img src="logo.jpeg" alt="MADVIZION LOGO" class="logo-img">
             <div class="member-display" id="member-typer"></div>
         </div>
 
