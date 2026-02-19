@@ -20,26 +20,49 @@
             cursor: crosshair;
         }
 
-        body {
+        body, html {
             background-color: var(--bg-color);
             
             /* --- BACKGROUND IMAGE --- */
-            /* Using simple relative path. Ensure bckg.png is in the repo root. */
-            background-image: url('bckg.png');
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: cover;
+            background-image: url('bckg.png') !important;
+            background-position: center center !important;
+            background-repeat: no-repeat !important;
+            background-attachment: fixed !important;
+            background-size: cover !important;
             
             color: var(--text-color);
             font-family: var(--font-mono);
-            min-height: 100vh;
+            height: 100vh;
             width: 100vw;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
         }
+
+        /* --- START OVERLAY (To fix Audio) --- */
+        #start-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: opacity 0.5s ease;
+        }
+        .start-text {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            animation: blink 1s infinite;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border: 1px solid var(--accent-color);
+            padding: 20px;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
 
         /* --- OVERLAYS --- */
         .scanlines {
@@ -77,7 +100,7 @@
             max-height: 750px;
             padding: 40px;
             border: 1px solid #333;
-            /* Transparent black to see background */
+            /* 0.85 Opacity ensures background is visible */
             background: rgba(5, 5, 5, 0.85);
             box-shadow: 0 0 30px rgba(0,0,0,0.8);
             display: flex;
@@ -186,26 +209,11 @@
             font-size: 0.7rem; color: #333; text-align: center; margin-top: auto; letter-spacing: 2px;
         }
 
-        /* --- CLICK TO START OVERLAY --- */
-        #start-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 9999;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: opacity 0.5s ease;
-        }
-        .start-text {
-            color: var(--accent-color); font-size: 1.5rem;
-            animation: blink 1s infinite; text-transform: uppercase;
-            letter-spacing: 3px; border: 1px solid var(--accent-color);
-            padding: 20px;
-        }
-        @keyframes blink { 50% { opacity: 0; } }
-
         @media (max-width: 600px) {
             .t-tag { float: none; display: block; margin-top: 2px; }
             .container { height: 95vh; width: 95%; padding: 25px; }
             .logo-img { width: 220px; }
-            body { background-attachment: scroll; }
+            body, html { background-attachment: scroll !important; }
         }
     </style>
 </head>
@@ -241,6 +249,12 @@
         <div id="archive-view" class="content-window hidden">
             <div class="list-group">
                 <div class="group-header">RELEASED WORKS</div>
+                
+                <a href="#" target="_blank" class="track-item">
+                    <span class="t-date">14/02/26</span> <span class="t-title">SWAGAHOLIC</span> <span class="t-tag">[EP I]</span><br>
+                    <span class="t-artist">Barno</span>
+                </a>
+                
                 <a href="https://www.youtube.com/watch?v=J-XjnC_3-6g" target="_blank" class="track-item">
                     <span class="t-date">05/07/24</span> <span class="t-title">SELECTED JUNGLE WORKS 24-24</span> <span class="t-tag">[Beattape]</span><br>
                     <span class="t-artist">y-rah</span>
@@ -296,13 +310,29 @@
 
         <div id="horizon-view" class="content-window hidden">
             <div class="list-group">
-                <div class="group-header">IMMINENT</div>
+                <div class="group-header">NO DATE / IN PROGRESS</div>
+                
                 <div class="track-item">
-                    <span class="t-date">14/02/26</span> <span class="t-title">SWAGAHOLIC</span> <span class="t-tag">[EP I]</span><br>
-                    <span class="t-artist">Barno</span>
+                    <span class="t-date">??/??/??</span> <span class="t-title">FADOS</span> <span class="t-tag">[Album]</span><br>
+                    <span class="t-artist">CWW</span>
                 </div>
+                
+                <div class="track-item">
+                    <span class="t-date">??/??/??</span> <span class="t-title">??????????????</span> <span class="t-tag">[???]</span><br>
+                    <span class="t-artist">???</span>
+                </div>
+                
+                <div class="track-item">
+                    <span class="t-date">??/??/??</span> <span class="t-title">??????????????</span> <span class="t-tag">[???]</span><br>
+                    <span class="t-artist">???</span>
+                </div>
+                
+                <div class="track-item">
+                    <span class="t-date">??/??/??</span> <span class="t-title">??????????????</span> <span class="t-tag">[???]</span><br>
+                    <span class="t-artist">???</span>
+                </div>
+                
             </div>
-            
             <div style="text-align: center;">
                 <button class="btn-back" onclick="showSection('menu')">[ BACK ]</button>
             </div>
