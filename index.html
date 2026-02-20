@@ -60,6 +60,7 @@
             letter-spacing: 3px;
             border: 1px solid var(--accent-color);
             padding: 20px;
+            text-align: center;
         }
 
         @keyframes blink { 50% { opacity: 0; } }
@@ -150,8 +151,8 @@
             background: transparent;
             color: var(--text-color);
             border: 1px solid #444;
-            padding: 20px;
-            margin-bottom: 15px;
+            padding: 15px; /* slightly smaller to fit 3 buttons nicely */
+            margin-bottom: 12px;
             font-family: var(--font-mono);
             font-size: 1rem;
             text-transform: uppercase;
@@ -220,7 +221,7 @@
 <body>
 
     <div id="start-overlay">
-        <div class="start-text">ENTER SYSTEM</div>
+        <div class="start-text">ENTER THE VIZION</div>
     </div>
 
     <div class="scanlines"></div>
@@ -244,34 +245,39 @@
         <div id="menu-view" style="width: 100%; display: flex; flex-direction: column; justify-content: center; height: 100%;">
             <button class="btn-menu" onclick="showSection('archive')">ARCHIVE [RELEASED]</button>
             <button class="btn-menu" onclick="showSection('horizon')">HORIZON [UPCOMING]</button>
+            <button class="btn-menu" onclick="showSection('extras')">EXTRAS [TRANSMISSIONS]</button>
         </div>
 
         <div id="archive-view" class="content-window hidden">
             <div class="list-group">
                 <div class="group-header">RELEASED WORKS</div>
                 
-                <a href="#" target="_blank" class="track-item">
+                <a href="https://www.youtube.com/watch?v=Qgpdy1yCmvw&list=PLOLYJoNZ5yeGPDAzVMTwo-MDE-0hXY5bK" target="_blank" class="track-item">
                     <span class="t-date">14/02/26</span> <span class="t-title">SWAGAHOLIC</span> <span class="t-tag">[EP I]</span><br>
                     <span class="t-artist">Barno</span>
+                </a>
+                
+                <a href="https://www.youtube.com/watch?v=projlgDNwKA&t=130s" target="_blank" class="track-item">
+                    <span class="t-date">01/02/26</span> <span class="t-title">VIRTUTS I VICIS</span> <span class="t-tag">[EP]</span><br>
+                    <span class="t-artist">CWW</span>
+                </a>
+                
+                <a href="https://www.youtube.com/watch?v=caL9_JZnW7E" target="_blank" class="track-item">
+                    <span class="t-date">22/08/25</span> <span class="t-title">MAYBACH (HOODTRAP)</span> <span class="t-tag">[Beattape]</span><br>
+                    <span class="t-artist">y-rah</span>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=nd6C6t6ZdjQ&t=322s" target="_blank" class="track-item">
+                    <span class="t-date">23/04/25</span> <span class="t-title">BARNA REVENGERS</span> <span class="t-tag">[Album]</span><br>
+                    <span class="t-artist">CWW</span>
                 </a>
                 
                 <a href="https://www.youtube.com/watch?v=J-XjnC_3-6g" target="_blank" class="track-item">
                     <span class="t-date">05/07/24</span> <span class="t-title">SELECTED JUNGLE WORKS 24-24</span> <span class="t-tag">[Beattape]</span><br>
                     <span class="t-artist">y-rah</span>
                 </a>
-                <a href="https://www.youtube.com/watch?v=nd6C6t6ZdjQ&t=322s" target="_blank" class="track-item">
-                    <span class="t-date">23/04/25</span> <span class="t-title">BARNA REVENGERS</span> <span class="t-tag">[Album]</span><br>
-                    <span class="t-artist">CWW</span>
-                </a>
-                <a href="https://www.youtube.com/watch?v=caL9_JZnW7E" target="_blank" class="track-item">
-                    <span class="t-date">22/08/25</span> <span class="t-title">MAYBACH (HOODTRAP)</span> <span class="t-tag">[Beattape]</span><br>
-                    <span class="t-artist">y-rah</span>
-                </a>
-                <a href="https://www.youtube.com/watch?v=projlgDNwKA&t=130s" target="_blank" class="track-item">
-                    <span class="t-date">01/02/26</span> <span class="t-title">VIRTUTS I VICIS</span> <span class="t-tag">[EP]</span><br>
-                    <span class="t-artist">CWW</span>
-                </a>
             </div>
+            
             <div class="list-group">
                 <div class="group-header">RECENT VIDEOS</div>
                 <a href="https://www.youtube.com/watch?v=pW_e5St1pMA" target="_blank" class="track-item">
@@ -338,6 +344,21 @@
             </div>
         </div>
 
+        <div id="extras-view" class="content-window hidden">
+            <div class="list-group">
+                <div class="group-header">INTERVIEWS / MEDIA</div>
+                
+                <a href="https://www.youtube.com/watch?v=C6vKPfVZi9Q" target="_blank" class="track-item">
+                    <span class="t-title">MADVIZION INTERVIEW</span> <span class="t-tag">[VIDEO]</span><br>
+                    <span class="t-artist">Madvizion</span>
+                </a>
+
+            </div>
+            <div style="text-align: center;">
+                <button class="btn-back" onclick="showSection('menu')">[ BACK ]</button>
+            </div>
+        </div>
+
         <div class="footer-info">BCN 2026</div>
     </div>
 
@@ -375,10 +396,12 @@
             const menu = document.getElementById('menu-view');
             const archive = document.getElementById('archive-view');
             const horizon = document.getElementById('horizon-view');
+            const extras = document.getElementById('extras-view');
 
             menu.classList.add('hidden');
             archive.classList.add('hidden');
             horizon.classList.add('hidden');
+            extras.classList.add('hidden');
             menu.style.display = 'none';
 
             if(sectionId === 'menu') {
@@ -388,6 +411,8 @@
                 archive.classList.remove('hidden');
             } else if(sectionId === 'horizon') {
                 horizon.classList.remove('hidden');
+            } else if(sectionId === 'extras') {
+                extras.classList.remove('hidden');
             }
         }
 
